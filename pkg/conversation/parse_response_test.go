@@ -1,4 +1,4 @@
-package chatgpt
+package conversation
 
 import (
 	"reflect"
@@ -25,7 +25,8 @@ And
 modify_file: folder_name/file_name.extension
 ` + "```" + `
 new file content
-` + "```",
+` + "```" + `
+delete_file: folder_name/file_name.extension`,
 			want: []FileOperation{
 				{
 					Type:     "create_file",
@@ -39,10 +40,30 @@ another line`,
 					FileName: "folder_name/file_name.extension",
 					Content:  "new file content",
 				},
+				{
+					Type:     "delete_file",
+					FileName: "folder_name/file_name.extension",
+				},
 			},
 			wantErr: false,
 		},
-		// Add more test cases here if needed
+		{
+			name: "Example response for asking file content",
+			response: `
+Need_content_of_file: folder_name/file_name.extension
+Need_content_of_file: folder_name2/file_name2.extension
+`,
+			want: []FileOperation{
+				{
+					Type:     "Need_content_of_file",
+					FileName: "folder_name/file_name.extension",
+				},
+				{
+					Type:     "Need_content_of_file",
+					FileName: "folder_name2/file_name2.extension",
+				},
+			},
+		},
 	}
 
 	for _, tc := range testCases {
