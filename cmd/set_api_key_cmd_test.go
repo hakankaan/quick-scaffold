@@ -31,10 +31,9 @@ func executeCommand(cmd *cobra.Command, args []string, buf *bytes.Buffer) (strin
 }
 
 func TestSetAPIKeyCmd(t *testing.T) {
-	// Add these lines
+
 	testRootCmd := &cobra.Command{}
 	testRootCmd.AddCommand(setAPIKeyCmd)
-	// End of added lines
 
 	testCases := []struct {
 		name        string
